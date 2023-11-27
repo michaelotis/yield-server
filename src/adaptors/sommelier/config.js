@@ -15,6 +15,9 @@ const realYieldBtc = '0x0274a704a6d9129f90a62ddc6f6024b33ecdad36';
 const turbosweth = '0xd33dad974b938744dac81fe00ac67cb5aa13958e';
 const turbogho = '0x0c190ded9be5f512bd72827bdad4003e9cc7975c';
 const ethgrowth = '0x6c51041a91c91c86f3f08a72cb4d3f67f1208897';
+const turbosteth = '0xfd6db5011b171b05e1ea3b92f9eacaeeb055e971';
+const turbosomm = '0x5195222f69c5821f8095ec565e71e18ab6a2298f';
+const turboeeth = '0x9a7b4980C6F0FCaa50CD5f288Ad7038f434c692e';
 
 // Rewards are paid out in EVM SOMM
 const rewardTokens = ['0xa670d7237398238de01267472c6f13e5b8010fd1'];
@@ -43,6 +46,9 @@ const stakingPools = {
   [turbosweth]: '0x69374d81fdc42add0fe1dc655705e40b51b6681b',
   [turbogho]: '0x6e5bb558d6c33ca45dc9efe0746a3c80bc3e70e1',
   [ethgrowth]: '0xb1D3948F4DCd7Aa5e89449080F3D88870aD0137A',
+  // TODO: If we add staking pool for turbo steth, add it here
+  // TODO: If we add staking pool for turbo somm, add it here
+  [turboeeth]: '0x596c3f05ba9c6c356527e47989b3ed26e2b3449d',
 };
 
 // List of v0815 Cellars
@@ -295,6 +301,19 @@ const v2p5Pools = [
     url: 'https://app.sommelier.finance/strategies/Turbo-GHO',
   },
   {
+    pool: `${turbosteth}-ethereum`,
+    chain,
+    project,
+    symbol: 'WETH-STETH-WSTETH',
+    poolMeta: 'TurboSTETH',
+    tvlUsd: 0,
+    apyBase: 0,
+    apyReward: 0,
+    rewardTokens,
+    underlyingTokens: [],
+    url: 'https://app.sommelier.finance/strategies/Turbo-STETH',
+  },
+  {
     pool: `${ethgrowth}-ethereum`,
     chain,
     project,
@@ -306,6 +325,32 @@ const v2p5Pools = [
     rewardTokens,
     underlyingTokens: [],
     url: 'https://app.sommelier.finance/strategies/ETH-Trend-Growth',
+  },
+  {
+    pool: `${turbosomm}-ethereum`,
+    chain,
+    project,
+    symbol: 'SOMM-WETH',
+    poolMeta: 'TurboSOMM',
+    tvlUsd: 0,
+    apyBase: 0,
+    apyReward: 0,
+    rewardTokens,
+    underlyingTokens: [],
+    url: 'https://app.sommelier.finance/strategies/Turbo-SOMM',
+  },
+  {
+    pool: `${turboeeth}-ethereum`,
+    chain,
+    project,
+    symbol: 'WETH-EETH',
+    poolMeta: 'TurboEETH',
+    tvlUsd: 0,
+    apyBase: 0,
+    apyReward: 0,
+    rewardTokens,
+    underlyingTokens: [],
+    url: 'https://app.sommelier.finance/strategies/Turbo-eETH',
   },
 ];
 
