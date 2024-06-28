@@ -225,9 +225,11 @@ const getMarkets = async (chain) => {
     const recentFees = res[`_${marketAddress}_recent`];
 
     const poolValue1 =
-      bigNumberify(lteStartOfPeriodFees[0].cumulativeFeeUsdPerPoolValue) ??
+      bigNumberify(lteStartOfPeriodFees[0]?.cumulativeFeeUsdPerPoolValue) ??
       BigNumber.from(0);
-    const poolValue2 = bigNumberify(recentFees[0].cumulativeFeeUsdPerPoolValue);
+    const poolValue2 = bigNumberify(
+      recentFees[0]?.cumulativeFeeUsdPerPoolValue
+    );
 
     if (poolValue2) {
       const incomePercentageForPeriod = poolValue2.minus(poolValue1);
@@ -261,7 +263,7 @@ const getMarkets = async (chain) => {
         symbol: `${longSymbol}-${shortSymbol}`,
         tvlUsd,
         apyBase: apr.toString() / 100,
-        apyReward,
+        apyReward: apyReward ?? null,
         underlyingTokens: [market.longToken, market.shortToken],
         rewardTokens: apyReward > 0 ? [ARB] : [],
       };
@@ -270,9 +272,7 @@ const getMarkets = async (chain) => {
     }
   });
 
-  console.log(marketTokensAPRData);
-
-  return marketTokensAPRData.filter(Boolean);
+  return marketTokensAPRData.filter(Boolean).filter((i) => utils.keepFinite(i));
 };
 
 const apy = async () => {

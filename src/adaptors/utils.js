@@ -66,17 +66,6 @@ exports.getBlocksByTime = async (timestamps, chainString) => {
 };
 
 const getLatestBlockSubgraph = async (url) => {
-  // const queryGraph = gql`
-  //   {
-  //     indexingStatusForCurrentVersion(subgraphName: "<PLACEHOLDER>") {
-  //       chains {
-  //         latestBlock {
-  //           number
-  //         }
-  //       }
-  //     }
-  //   }
-  // `;
   const queryGraph = gql`
     {
       _meta {
@@ -87,24 +76,26 @@ const getLatestBlockSubgraph = async (url) => {
     }
   `;
 
-  // const blockGraph = await request(
-  //   'https://api.thegraph.com/index-node/graphql',
-  //   queryGraph.replace('<PLACEHOLDER>', url.split('name/')[1])
-  // );
   const blockGraph =
+    url.includes('https://gateway-arbitrum.network.thegraph.com/api') ||
     url.includes('metis-graph.maiadao.io') ||
     url.includes('babydoge/faas') ||
     url.includes('kybernetwork/kyberswap-elastic-cronos') ||
     url.includes('kybernetwork/kyberswap-elastic-matic') ||
+    url.includes('metisapi.0xgraph.xyz/subgraphs/name') ||
     url.includes(
       'https://subgraph.satsuma-prod.com/09c9cf3574cc/orbital-apes/v3-subgraph/api'
     ) ||
     url.includes('api.goldsky.com') ||
+    url.includes('api.studio.thegraph.com') ||
     url.includes('48211/uniswap-v3-base') ||
     url.includes('horizondex/block') ||
+    url.includes('pancake-swap.workers.dev') ||
+    url.includes('pancakeswap/exchange-v3-linea') ||
     url.includes('exchange-v3-polygon-zkevm/version/latest') ||
     url.includes('exchange-v3-zksync/version/latest') ||
-    url.includes('balancer-base-v2/version/latest')
+    url.includes('balancer-base-v2/version/latest') ||
+    url.includes('horizondex')
       ? await request(url, queryGraph)
       : url.includes('aperture/uniswap-v3')
       ? await request(
@@ -213,9 +204,6 @@ exports.tvl = async (dataNow, networkString) => {
   for (const el of dataNowCopy) {
     let price0 = prices[`${networkString}:${el.token0.id}`]?.price;
     let price1 = prices[`${networkString}:${el.token1.id}`]?.price;
-
-    price0 = price0 !== undefined ? Number(price0.toFixed(precision)) : price0;
-    price1 = price1 !== undefined ? Number(price1.toFixed(precision)) : price1;
 
     if (price0 !== undefined && price1 !== undefined) {
       tvl = Number(el.reserve0) * price0 + Number(el.reserve1) * price1;
@@ -417,6 +405,7 @@ const makeMulticall = async (abi, addresses, chain, params = null) => {
       params,
     })),
     chain,
+    permitFailure: true,
   });
 
   const res = data.output.map(({ output }) => output);
