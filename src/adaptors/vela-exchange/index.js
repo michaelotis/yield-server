@@ -121,6 +121,7 @@ const poolsFunction = async () => {
       100;
 
     for (let i = 1; i < rewardsPerSecond.addresses.length; i++) {
+      if(parseFloat(ethers.utils.formatEther(rewardsPerSecond.rewardsPerSec[i])) > 0){
       rewardTokens.push(rewardsPerSecond.addresses[i]);
       const price = (
         await utils.getPrices([rewardsPerSecond.addresses[i]], chain)
@@ -132,6 +133,7 @@ const poolsFunction = async () => {
           Object.values(price)[0]) /
           (poolTotal * current)) *
         100;
+    }
     }
 
     const VLPPool = {
